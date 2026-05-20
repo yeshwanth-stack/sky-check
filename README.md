@@ -25,7 +25,15 @@ pip install -r requirements.txt
 python cli.py --city "London"
 python cli.py --city "Tokyo"
 python cli.py --city "New York"
+python cli.py --city "New York" --unit F   # Fahrenheit
 ```
+
+### Flags
+
+| Flag | Values | Default | Description |
+|---|---|---|---|
+| `--city` | any city name | required | City to fetch weather for |
+| `--unit` | `C`, `F` | `C` | Temperature unit (Celsius or Fahrenheit) |
 
 ### Example output
 
