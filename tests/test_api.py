@@ -2,6 +2,7 @@ import pytest
 import httpx
 from unittest.mock import AsyncMock, patch, MagicMock
 from weather_api import fetch_weather, get_coordinates, get_weather
+from cli import build_table
 
 GEO_RESPONSE = {
     "results": [{"latitude": 40.71427, "longitude": -74.00597, "name": "New York"}]
@@ -87,6 +88,28 @@ async def test_fetch_weather_http_error_on_forecast():
         with pytest.raises(httpx.HTTPStatusError):
             await fetch_weather("New York")
 
+
+# --- --unit F flag: Fahrenheit conversion ---
+
+def test_build_table_celsius():
+    weather = {"city": "Tokyo", "temperature_c": 20.0, "wind_speed_kmh": 5.0, "weather_code": 0, "humidity_pct": 60}
+    table = build_table(weather, unit="C")
+    cell = table.columns[1]._cells[1]  # Temperature row value
+    assert "°C" in cell
+    assert "20.0" in cell
+
+def test_build_table_fahrenheit_conversion():
+    weather = {"city": "Tokyo", "temperature_c": 0.0, "wind_speed_kmh": 5.0, "weather_code": 0, "humidity_pct": 60}
+    table = build_table(weather, unit="F")
+    cell = table.columns[1]._cells[1]  # Temperature row value
+    assert "°F" in cell
+    assert "32.0" in cell  # 0°C == 32°F
+
+def test_build_table_fahrenheit_negative():
+    weather = {"city": "Reykjavik", "temperature_c": -10.0, "wind_speed_kmh": 20.0, "weather_code": 71, "humidity_pct": 80}
+    table = build_table(weather, unit="F")
+    cell = table.columns[1]._cells[1]
+    assert "14.0" in cell  # -10°C == 14°F
 
 # --- get_coordinates parses correctly ---
 
