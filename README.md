@@ -1,5 +1,7 @@
 # sky-check
 
+[![CI](https://github.com/yeshwanth-stack/sky-check/actions/workflows/ci.yml/badge.svg)](https://github.com/yeshwanth-stack/sky-check/actions/workflows/ci.yml)
+
 A CLI tool that fetches real-time weather for any city using the [Open-Meteo](https://open-meteo.com/) API — no API key required.
 
 ## Features
